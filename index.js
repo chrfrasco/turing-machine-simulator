@@ -55,9 +55,9 @@ function readSymbol(position, tape) {
 function move(position, direction) {
   switch (direction) {
     case LEFT:
-      return position + 1;
-    case RIGHT:
       return Math.max(position - 1, 0);
+    case RIGHT:
+      return position + 1;
     default:
       throw new TypeError(`unrecognized direction ${direction}`);
   }
@@ -77,7 +77,7 @@ const makeTransitionFn = transitionTable => ({
   tape,
 }) => {
   const out = transitionTable[state][symbol];
-  const { nextState, direction, replacementSymbol = NULL } = out;
+  const [nextState, direction = RIGHT, replacementSymbol = NULL] = out;
   const nextTape = setNth(tape, position, replacementSymbol);
 
   return { nextState, direction, nextTape };
@@ -87,4 +87,3 @@ module.exports = {
   TuringMachine,
   makeTransitionFn,
 };
-
