@@ -1,10 +1,11 @@
-import { TuringMachine, makeTransitionFn } from "./index";
+import { TuringMachine } from "./index";
+import { makeTransitionFn } from "./makeTransitionFn";
 import { ACCEPT_STATE, REJECT_STATE, RIGHT, LEFT, NULL } from "./constants";
 
 test("trivial case", () => {
   const states = { q0: Symbol("q0"), q1: Symbol("q1") };
 
-  const transitionTable = {
+  const transitionTable: TransitionTable = {
     [states.q0]: {
       0: [REJECT_STATE],
       [NULL]: [ACCEPT_STATE]
@@ -38,7 +39,7 @@ test("{ s | s in {0, 1}*, '11' in s }", () => {
     q3: Symbol("q3")
   };
 
-  const transitionTable = {
+  const transitionTable: TransitionTable = {
     [states.q1]: {
       0: [states.q1, RIGHT],
       1: [states.q2, RIGHT],
@@ -83,7 +84,7 @@ test("{ 0^n1^n | n >= 0 }", () => {
     q3: Symbol("q3")
   };
 
-  const transitionTable = {
+  const transitionTable: TransitionTable = {
     [states.q0]: {
       0: [states.q1],
       1: [REJECT_STATE],
@@ -132,6 +133,9 @@ test("{ 0^n1^n | n >= 0 }", () => {
   runTableTests(tests, tm.accepts);
 });
 
+/**
+ * "message" property is a workaround to add context to failing tests in a loop
+ */
 function runTableTests(
   table: { input: string; output: boolean }[],
   fn: (s: string) => boolean
