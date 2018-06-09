@@ -117,9 +117,6 @@ test("{ 0^n1^n | n >= 0 }", () => {
 
   const tm = TuringMachine(defn);
 
-  /**
-   * @type {Array<{input:string,output:boolean}>}
-   */
   const tests = [
     { input: "", output: true },
     { input: "0", output: false },

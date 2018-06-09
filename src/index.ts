@@ -80,7 +80,7 @@ export function TuringMachine(defn: Definition) {
 }
 
 interface TransitionFnArgs {
-  symbol: symbol | string;
+  symbol: TapeSymbol;
   state: symbol;
   position: number;
   tape: Tape;
@@ -96,15 +96,12 @@ interface TransitionTable {
   [key: string]: { [key: string]: any[] };
 }
 
-export type TransitionFunction = (a: TransitionFnArgs) => TransitionFnResult;
+type TransitionFunction = (a: TransitionFnArgs) => TransitionFnResult;
 
-export function makeTransitionFn(transitionTable: TransitionTable) {
-  return ({
-    symbol,
-    state,
-    position,
-    tape
-  }: TransitionFnArgs): TransitionFnResult => {
+export function makeTransitionFn(
+  transitionTable: TransitionTable
+): TransitionFunction {
+  return ({ symbol, state, position, tape }) => {
     const out = transitionTable[state as any][symbol as any]; // typescript doesn't allow symbol indexing
     const [nextState, direction = RIGHT, replacementSymbol = NULL] = out;
     const nextTape = setNth(tape, position, replacementSymbol);
@@ -112,4 +109,3 @@ export function makeTransitionFn(transitionTable: TransitionTable) {
     return { nextState, direction, nextTape };
   };
 }
-
