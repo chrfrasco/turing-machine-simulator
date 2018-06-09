@@ -1,5 +1,10 @@
-const { TuringMachine, makeTransitionFn } = require("./");
-const { REJECT_STATE, RIGHT, LEFT, NULL } = require("./constants");
+const {
+  ACCEPT_STATE,
+  REJECT_STATE,
+  RIGHT,
+  LEFT,
+  NULL,
+} = require("./constants");
 const { not } = require("./utils");
 
 test("trivial case", () => {
@@ -7,21 +12,20 @@ test("trivial case", () => {
   
   const transitionTable = {
     [states.q0]: {
-      0: [ REJECT_STATE ],
-      [NULL]: [ states.q1 ],
+      0: [REJECT_STATE],
+      [NULL]: [ACCEPT_STATE],
     },
     [states.q1]: {
-      0: [ REJECT_STATE ],
-      [NULL]: [ states.q1 ],
+      0: [REJECT_STATE],
+      [NULL]: [ACCEPT_STATE],
     },
-  }
+  };
 
   const defn = {
     states,
     transitionFn: makeTransitionFn(transitionTable),
-    acceptState: states.q1,
-    startState: states.q0
-  }
+    startState: states.q0,
+  };
 
   const tm = TuringMachine(defn);
 
@@ -41,26 +45,25 @@ test("{ s | s in {0, 1}*, '11' in s }", () => {
 
   const transitionTable = {
     [states.q1]: {
-      0: [ states.q1, RIGHT ],
-      1: [ states.q2, RIGHT ],
-      [NULL]: [ REJECT_STATE, RIGHT ],
+      0: [states.q1, RIGHT],
+      1: [states.q2, RIGHT],
+      [NULL]: [REJECT_STATE, RIGHT],
     },
     [states.q2]: {
-      0: [ states.q1, RIGHT ],
-      1: [ states.q3, RIGHT ],
-      [NULL]: [ REJECT_STATE, RIGHT ],
+      0: [states.q1, RIGHT],
+      1: [ACCEPT_STATE, RIGHT],
+      [NULL]: [REJECT_STATE, RIGHT],
     },
     [states.q3]: {
-      0: [ states.q1, RIGHT ],
-      1: [ states.q3, RIGHT ],
-      [NULL]: [ REJECT_STATE, RIGHT ],
+      0: [states.q1, RIGHT],
+      1: [ACCEPT_STATE, RIGHT],
+      [NULL]: [REJECT_STATE, RIGHT],
     },
   };
 
   const defn = {
     transitionFn: makeTransitionFn(transitionTable),
     startState: states.q1,
-    acceptState: states.q3,
     states,
   };
 
@@ -77,48 +80,43 @@ test("{ s | s in {0, 1}*, '11' in s }", () => {
   runTableTests(tests, tm.accepts);
 });
 
-
 test("{ 0^n1^n | n >= 0 }", () => {
   const states = {
     q0: Symbol("q0"),
     q1: Symbol("q1"),
     q2: Symbol("q2"),
     q3: Symbol("q3"),
-    q4: Symbol("q4"),
   };
-
-  const acceptState = states.q4;
 
   const transitionTable = {
     [states.q0]: {
-      0: [ states.q1 ],
-      1: [ REJECT_STATE ],
-      [NULL]: [ acceptState ],
+      0: [states.q1],
+      1: [REJECT_STATE],
+      [NULL]: [ACCEPT_STATE],
     },
 
     [states.q1]: {
-      0: [ states.q1, RIGHT, '0' ],
-      1: [ states.q1, RIGHT, '1' ],
-      [NULL]: [ states.q2, LEFT ],
+      0: [states.q1, RIGHT, "0"],
+      1: [states.q1, RIGHT, "1"],
+      [NULL]: [states.q2, LEFT],
     },
 
     [states.q2]: {
-      0: [ REJECT_STATE ],
-      1: [ states.q3, LEFT ],
-      [NULL]: [ REJECT_STATE ],
+      0: [REJECT_STATE],
+      1: [states.q3, LEFT],
+      [NULL]: [REJECT_STATE],
     },
 
     [states.q3]: {
-      0: [ states.q3, LEFT, '0' ],
-      1: [ states.q3, LEFT, '1' ],
-      [NULL]: [ states.q0 ],
+      0: [states.q3, LEFT, "0"],
+      1: [states.q3, LEFT, "1"],
+      [NULL]: [states.q0],
     },
   };
 
   const defn = {
     transitionFn: makeTransitionFn(transitionTable),
     startState: states.q0,
-    acceptState,
     states,
   };
 

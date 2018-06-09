@@ -1,17 +1,24 @@
 const { memoize, setNth, not } = require("./utils");
-const { REJECT_STATE, RIGHT, LEFT, NULL } = require("./constants");
+const {
+  ACCEPT_STATE,
+  REJECT_STATE,
+  RIGHT,
+  LEFT,
+  NULL,
+} = require("./constants");
+
 
 /**
  * @param {any} definition
  * @returns {boolean}
  */
-function run({ tape, states, transitionFn, startState, acceptState }) {
+function run({ tape, states, transitionFn, startState }) {
   if (typeof tape === "string") {
     tape = Array.from(tape);
   }
 
   function tick({ state, position, tape }) {
-    if (state === acceptState) {
+    if (state === ACCEPT_STATE) {
       return true;
     }
 
