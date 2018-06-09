@@ -1,30 +1,25 @@
-const {
-  ACCEPT_STATE,
-  REJECT_STATE,
-  RIGHT,
-  LEFT,
-  NULL,
-} = require("./constants");
-const { not } = require("./utils");
+import { TuringMachine, makeTransitionFn } from "./index";
+import { ACCEPT_STATE, REJECT_STATE, RIGHT, LEFT, NULL } from "./constants";
 
 test("trivial case", () => {
   const states = { q0: Symbol("q0"), q1: Symbol("q1") };
-  
+
   const transitionTable = {
     [states.q0]: {
       0: [REJECT_STATE],
-      [NULL]: [ACCEPT_STATE],
+      [NULL]: [ACCEPT_STATE]
     },
+
     [states.q1]: {
       0: [REJECT_STATE],
-      [NULL]: [ACCEPT_STATE],
-    },
+      [NULL]: [ACCEPT_STATE]
+    }
   };
 
   const defn = {
     states,
     transitionFn: makeTransitionFn(transitionTable),
-    startState: states.q0,
+    startState: states.q0
   };
 
   const tm = TuringMachine(defn);
@@ -40,31 +35,31 @@ test("{ s | s in {0, 1}*, '11' in s }", () => {
   const states = {
     q1: Symbol("q1"),
     q2: Symbol("q2"),
-    q3: Symbol("q3"),
+    q3: Symbol("q3")
   };
 
   const transitionTable = {
     [states.q1]: {
       0: [states.q1, RIGHT],
       1: [states.q2, RIGHT],
-      [NULL]: [REJECT_STATE, RIGHT],
+      [NULL]: [REJECT_STATE, RIGHT]
     },
     [states.q2]: {
       0: [states.q1, RIGHT],
       1: [ACCEPT_STATE, RIGHT],
-      [NULL]: [REJECT_STATE, RIGHT],
+      [NULL]: [REJECT_STATE, RIGHT]
     },
     [states.q3]: {
       0: [states.q1, RIGHT],
       1: [ACCEPT_STATE, RIGHT],
-      [NULL]: [REJECT_STATE, RIGHT],
-    },
+      [NULL]: [REJECT_STATE, RIGHT]
+    }
   };
 
   const defn = {
     transitionFn: makeTransitionFn(transitionTable),
     startState: states.q1,
-    states,
+    states
   };
 
   const tm = TuringMachine(defn);
@@ -74,7 +69,7 @@ test("{ s | s in {0, 1}*, '11' in s }", () => {
     { input: "00", output: false },
     { input: "11", output: true },
     { input: "011", output: true },
-    { input: "0101", output: false },
+    { input: "0101", output: false }
   ];
 
   runTableTests(tests, tm.accepts);
@@ -85,43 +80,46 @@ test("{ 0^n1^n | n >= 0 }", () => {
     q0: Symbol("q0"),
     q1: Symbol("q1"),
     q2: Symbol("q2"),
-    q3: Symbol("q3"),
+    q3: Symbol("q3")
   };
 
   const transitionTable = {
     [states.q0]: {
       0: [states.q1],
       1: [REJECT_STATE],
-      [NULL]: [ACCEPT_STATE],
+      [NULL]: [ACCEPT_STATE]
     },
 
     [states.q1]: {
       0: [states.q1, RIGHT, "0"],
       1: [states.q1, RIGHT, "1"],
-      [NULL]: [states.q2, LEFT],
+      [NULL]: [states.q2, LEFT]
     },
 
     [states.q2]: {
       0: [REJECT_STATE],
       1: [states.q3, LEFT],
-      [NULL]: [REJECT_STATE],
+      [NULL]: [REJECT_STATE]
     },
 
     [states.q3]: {
       0: [states.q3, LEFT, "0"],
       1: [states.q3, LEFT, "1"],
-      [NULL]: [states.q0],
-    },
+      [NULL]: [states.q0]
+    }
   };
 
   const defn = {
     transitionFn: makeTransitionFn(transitionTable),
     startState: states.q0,
-    states,
+    states
   };
 
   const tm = TuringMachine(defn);
 
+  /**
+   * @type {Array<{input:string,output:boolean}>}
+   */
   const tests = [
     { input: "", output: true },
     { input: "0", output: false },
@@ -131,18 +129,16 @@ test("{ 0^n1^n | n >= 0 }", () => {
     { input: "0000011111", output: true },
     { input: "000001111", output: false },
     { input: "000011111", output: false },
+    { input: "0101", output: false }
   ];
 
   runTableTests(tests, tm.accepts);
 });
 
-/**
- * Necessary to add context to failed assertions
- *
- * @param {Array<Array<T, R>>} table
- * @param {(t: T) => R} fn
- */
-function runTableTests(table, fn) {
+function runTableTests(
+  table: { input: string; output: boolean }[],
+  fn: (s: string) => boolean
+) {
   table.forEach(({ input, output }) => {
     const result = fn(input);
     const message = `expected ${input} to be ${output}, got ${result} instead`;

@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "lib": ["es5", "es2015"],
+    "strict": true,
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "outDir": "dist"
+  }
+}
