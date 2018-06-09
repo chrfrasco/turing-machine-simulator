@@ -92,8 +92,11 @@ interface TransitionFnResult {
   nextTape: Tape;
 }
 
+type Transition = [symbol, symbol, TapeSymbol];
+type TransitionPartial = Transition | [symbol, symbol] | [symbol];
+
 interface TransitionTable {
-  [key: string]: { [key: string]: any[] };
+  [key: string]: { [key: string]: TransitionPartial };
 }
 
 type TransitionFunction = (a: TransitionFnArgs) => TransitionFnResult;
@@ -103,9 +106,25 @@ export function makeTransitionFn(
 ): TransitionFunction {
   return ({ symbol, state, position, tape }) => {
     const out = transitionTable[state as any][symbol as any]; // typescript doesn't allow symbol indexing
-    const [nextState, direction = RIGHT, replacementSymbol = NULL] = out;
+    const [nextState, direction, replacementSymbol] = withDefaults(out);
     const nextTape = setNth(tape, position, replacementSymbol);
 
     return { nextState, direction, nextTape };
   };
+}
+
+function withDefaults(transition: TransitionPartial): Transition {
+  switch (transition.length) {
+    case 1:
+      return [transition[0], RIGHT, NULL]
+  
+    case 2:
+      return [transition[0], transition[1], NULL];
+
+    case 3:
+      return transition;
+    
+    default:
+      throw TypeError();
+  }
 }
