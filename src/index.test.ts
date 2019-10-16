@@ -1,6 +1,6 @@
 import { TuringMachine } from "./index";
-import { makeTransitionFn, TransitionTable } from "./make_transition_fn";
 import { ACCEPT_STATE, REJECT_STATE, RIGHT, LEFT, NULL } from "./constants";
+import { TransitionTable } from "./turing_machine";
 
 test("trivial case", () => {
   const states = { q0: Symbol("q0"), q1: Symbol("q1") };
@@ -19,7 +19,7 @@ test("trivial case", () => {
 
   const defn = {
     states,
-    transitionFn: makeTransitionFn(transitionTable),
+    transitionFn: TuringMachine.makeTransitionFn(transitionTable),
     startState: states.q0
   };
 
@@ -58,7 +58,7 @@ test("{ s | s in {0, 1}*, '11' in s }", () => {
   };
 
   const defn = {
-    transitionFn: makeTransitionFn(transitionTable),
+    transitionFn: TuringMachine.makeTransitionFn(transitionTable),
     startState: states.q1,
     states
   };
@@ -73,7 +73,7 @@ test("{ s | s in {0, 1}*, '11' in s }", () => {
     { input: "0101", output: false }
   ];
 
-  runTableTests(tests, tm.accepts);
+  runTableTests(tests, s => tm.accepts(s));
 });
 
 test("{ 0^n1^n | n >= 0 }", () => {
@@ -111,7 +111,7 @@ test("{ 0^n1^n | n >= 0 }", () => {
   };
 
   const defn = {
-    transitionFn: makeTransitionFn(transitionTable),
+    transitionFn: TuringMachine.makeTransitionFn(transitionTable),
     startState: states.q0,
     states
   };
@@ -130,7 +130,7 @@ test("{ 0^n1^n | n >= 0 }", () => {
     { input: "0101", output: false }
   ];
 
-  runTableTests(tests, tm.accepts);
+  runTableTests(tests, s => tm.accepts(s));
 });
 
 /**

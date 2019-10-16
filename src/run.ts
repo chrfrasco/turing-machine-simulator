@@ -1,5 +1,5 @@
 import { ACCEPT_STATE, REJECT_STATE, RIGHT, LEFT, NULL } from "./constants";
-import { TransitionFunction, Tape, TapeSymbol } from "./make_transition_fn";
+import { Tape, TransitionFunction, TapeSymbol } from "./turing_machine";
 
 export function run({
   state,
