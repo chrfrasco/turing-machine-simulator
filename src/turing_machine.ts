@@ -39,7 +39,11 @@ export class TuringMachine {
   static makeTransitionFn(table: TransitionTable): TransitionFunction {
     return ({ symbol, state, position, tape }) => {
       const transition = table[state as any][symbol as any]; // typescript doesn't allow symbol indexing
-      const [nextState, direction, replacementSymbol] = TuringMachine.withTransitionDefaults(transition);
+      const [
+        nextState,
+        direction,
+        replacementSymbol
+      ] = TuringMachine.withTransitionDefaults(transition);
       const nextTape = setNth(tape, position, replacementSymbol);
       return { nextState, direction, nextTape };
     };
@@ -48,31 +52,33 @@ export class TuringMachine {
   /**
    * Allows shorthand transition definitions
    */
-  private static withTransitionDefaults(transition: TransitionPartial): Transition {
+  private static withTransitionDefaults(
+    transition: TransitionPartial
+  ): Transition {
     switch (transition.length) {
       case 1:
-        return [transition[0], RIGHT, NULL]
-    
+        return [transition[0], RIGHT, NULL];
+
       case 2:
         return [transition[0], transition[1], NULL];
 
       case 3:
         return transition;
-      
+
       default:
         throw new TypeError();
     }
   }
 
   accepts(tape: string | Tape): boolean {
-    if (typeof tape === 'string') {
+    if (typeof tape === "string") {
       tape = Array.from(tape);
     }
 
     return run({
       tape,
       state: this.definition.startState,
-      transitionFn: this.definition.transitionFn,
+      transitionFn: this.definition.transitionFn
     });
   }
 

@@ -1,8 +1,8 @@
 import { TuringMachine } from "./index";
 import { ACCEPT_STATE, REJECT_STATE, RIGHT, LEFT, NULL } from "./constants";
 import { TransitionTable } from "./turing_machine";
-describe('TuringMachine', () => {
 
+describe("TuringMachine", () => {
   test("trivial case", () => {
     const states = { q0: Symbol("q0"), q1: Symbol("q1") };
 
@@ -71,12 +71,15 @@ describe('TuringMachine', () => {
       ["00", false],
       ["11", true],
       ["011", true],
-      ["0101", false],
+      ["0101", false]
     ];
 
-    test.each(cases)('expected tm.accepts("%s") to be %s', (input, expected) => {
-      expect(tm.accepts(input)).toBe(expected);
-    });
+    test.each(cases)(
+      'expected tm.accepts("%s") to be %s',
+      (input, expected) => {
+        expect(tm.accepts(input)).toBe(expected);
+      }
+    );
   });
 
   describe("{ 0^n1^n | n >= 0 }", () => {
@@ -130,12 +133,14 @@ describe('TuringMachine', () => {
       ["0000011111", true],
       ["000001111", false],
       ["000011111", false],
-      ["0101", false],
+      ["0101", false]
     ];
 
-    test.each(cases)('expected tm.accepts("%s") to be %s', (input, expected) => {
-      expect(tm.accepts(input)).toBe(expected);
-    });
+    test.each(cases)(
+      'expected tm.accepts("%s") to be %s',
+      (input, expected) => {
+        expect(tm.accepts(input)).toBe(expected);
+      }
+    );
   });
-
-})
+});
