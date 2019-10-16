@@ -8,20 +8,22 @@ type Definition = {
   startState: symbol;
 };
 
-export function TuringMachine(defn: Definition) {
-  function accepts(tape: string | Tape): boolean {
-    if (typeof tape === "string") {
+export class TuringMachine {
+  constructor(private readonly definition: Definition) {}
+
+  accepts(tape: string | Tape): boolean {
+    if (typeof tape === 'string') {
       tape = Array.from(tape);
     }
 
     return run({
       tape,
-      state: defn.startState,
-      transitionFn: defn.transitionFn
+      state: this.definition.startState,
+      transitionFn: this.definition.transitionFn,
     });
   }
 
-  const rejects = not(accepts);
-
-  return { accepts, rejects };
+  rejects(tape: string | Tape): boolean {
+    return !this.accepts(tape);
+  }
 }

@@ -23,7 +23,7 @@ test("trivial case", () => {
     startState: states.q0
   };
 
-  const tm = TuringMachine(defn);
+  const tm = new TuringMachine(defn);
 
   expect(tm.accepts("")).toBe(true);
   expect(tm.accepts("0")).toBe(false);
@@ -63,7 +63,7 @@ test("{ s | s in {0, 1}*, '11' in s }", () => {
     states
   };
 
-  const tm = TuringMachine(defn);
+  const tm = new TuringMachine(defn);
 
   const tests = [
     { input: "", output: false },
@@ -116,7 +116,7 @@ test("{ 0^n1^n | n >= 0 }", () => {
     states
   };
 
-  const tm = TuringMachine(defn);
+  const tm = new TuringMachine(defn);
 
   const tests = [
     { input: "", output: true },
