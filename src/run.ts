@@ -1,4 +1,5 @@
 import { ACCEPT_STATE, REJECT_STATE, RIGHT, LEFT, NULL } from "./constants";
+import { TransitionFunction, Tape, TapeSymbol } from "./make_transition_fn";
 
 export function run({
   state,

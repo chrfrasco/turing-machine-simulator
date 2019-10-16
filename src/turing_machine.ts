@@ -1,5 +1,12 @@
 import { run } from "./run";
 import { not } from "./utils";
+import { TransitionFunction, Tape } from "./make_transition_fn";
+
+type Definition = {
+  states: { [key: string]: symbol };
+  transitionFn: TransitionFunction;
+  startState: symbol;
+};
 
 export function TuringMachine(defn: Definition) {
   function accepts(tape: string | Tape): boolean {

@@ -1,6 +1,31 @@
 import { setNth } from "./utils";
 import { RIGHT, NULL } from "./constants";
 
+export type TapeSymbol = string | symbol;
+export type Tape = Array<TapeSymbol>;
+
+type Transition = [symbol, symbol, TapeSymbol];
+type TransitionPartial = Transition | [symbol, symbol] | [symbol];
+
+export type TransitionTable = {
+  [key: string]: { [key: string]: TransitionPartial };
+};
+
+export type TransitionFunction = (a: TransitionFnArgs) => TransitionFnResult;
+
+type TransitionFnArgs = {
+  symbol: TapeSymbol;
+  state: symbol;
+  position: number;
+  tape: Tape;
+};
+
+type TransitionFnResult = {
+  nextState: symbol;
+  direction: symbol;
+  nextTape: Tape;
+};
+
 export function makeTransitionFn(table: TransitionTable): TransitionFunction {
   return ({ symbol, state, position, tape }) => {
     const transition = table[state as any][symbol as any]; // typescript doesn't allow symbol indexing
