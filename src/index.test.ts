@@ -1,5 +1,5 @@
 import { TuringMachine } from "./index";
-import { ACCEPT_STATE, REJECT_STATE, RIGHT, LEFT, NULL } from "./constants";
+import { ACCEPT_STATE, REJECT_STATE, Direction, NULL } from "./constants";
 import { TransitionTable } from "./turing_machine";
 
 describe("TuringMachine", () => {
@@ -42,19 +42,19 @@ describe("TuringMachine", () => {
 
     const transitionTable: TransitionTable = {
       [states.q1]: {
-        0: [states.q1, RIGHT],
-        1: [states.q2, RIGHT],
-        [NULL]: [REJECT_STATE, RIGHT]
+        0: [states.q1, Direction.RIGHT],
+        1: [states.q2, Direction.RIGHT],
+        [NULL]: [REJECT_STATE, Direction.RIGHT]
       },
       [states.q2]: {
-        0: [states.q1, RIGHT],
-        1: [ACCEPT_STATE, RIGHT],
-        [NULL]: [REJECT_STATE, RIGHT]
+        0: [states.q1, Direction.RIGHT],
+        1: [ACCEPT_STATE, Direction.RIGHT],
+        [NULL]: [REJECT_STATE, Direction.RIGHT]
       },
       [states.q3]: {
-        0: [states.q1, RIGHT],
-        1: [ACCEPT_STATE, RIGHT],
-        [NULL]: [REJECT_STATE, RIGHT]
+        0: [states.q1, Direction.RIGHT],
+        1: [ACCEPT_STATE, Direction.RIGHT],
+        [NULL]: [REJECT_STATE, Direction.RIGHT]
       }
     };
 
@@ -98,20 +98,20 @@ describe("TuringMachine", () => {
       },
 
       [states.q1]: {
-        0: [states.q1, RIGHT, "0"],
-        1: [states.q1, RIGHT, "1"],
-        [NULL]: [states.q2, LEFT]
+        0: [states.q1, Direction.RIGHT, "0"],
+        1: [states.q1, Direction.RIGHT, "1"],
+        [NULL]: [states.q2, Direction.LEFT]
       },
 
       [states.q2]: {
         0: [REJECT_STATE],
-        1: [states.q3, LEFT],
+        1: [states.q3, Direction.LEFT],
         [NULL]: [REJECT_STATE]
       },
 
       [states.q3]: {
-        0: [states.q3, LEFT, "0"],
-        1: [states.q3, LEFT, "1"],
+        0: [states.q3, Direction.LEFT, "0"],
+        1: [states.q3, Direction.LEFT, "1"],
         [NULL]: [states.q0]
       }
     };

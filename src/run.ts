@@ -1,5 +1,6 @@
-import { ACCEPT_STATE, REJECT_STATE, RIGHT, LEFT, NULL } from "./constants";
+import { Direction, ACCEPT_STATE, REJECT_STATE, NULL } from "./constants";
 import { Tape, TransitionFunction, TapeSymbol } from "./turing_machine";
+import { UnreachableError } from "./unreachable_error";
 
 export function run({
   state,
@@ -45,13 +46,13 @@ function readSymbol(position: number, tape: Tape): TapeSymbol {
   return tape[position];
 }
 
-function move(position: number, direction: symbol): number {
+function move(position: number, direction: Direction): number {
   switch (direction) {
-    case LEFT:
+    case Direction.LEFT:
       return Math.max(position - 1, 0);
-    case RIGHT:
+    case Direction.RIGHT:
       return position + 1;
     default:
-      throw new TypeError(`unrecognized direction ${direction.toString()}`);
+      throw new UnreachableError(direction);
   }
 }

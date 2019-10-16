@@ -1,12 +1,13 @@
 import { run } from "./run";
 import { setNth } from "./set_nth";
-import { RIGHT, NULL } from "./constants";
+import { RIGHT, NULL, Direction } from "./constants";
+import { UnreachableError } from './unreachable_error'
 
 export type TapeSymbol = string | symbol;
 export type Tape = Array<TapeSymbol>;
 
-type Transition = [symbol, symbol, TapeSymbol];
-type TransitionPartial = Transition | [symbol, symbol] | [symbol];
+type Transition = [symbol, Direction, TapeSymbol];
+type TransitionPartial = Transition | [symbol, Direction] | [symbol];
 
 export type TransitionTable = {
   [key: string]: { [key: string]: TransitionPartial };
@@ -23,7 +24,7 @@ type TransitionFnArgs = {
 
 type TransitionFnResult = {
   nextState: symbol;
-  direction: symbol;
+  direction: Direction;
   nextTape: Tape;
 };
 
@@ -57,7 +58,7 @@ export class TuringMachine {
   ): Transition {
     switch (transition.length) {
       case 1:
-        return [transition[0], RIGHT, NULL];
+        return [transition[0], Direction.RIGHT, NULL];
 
       case 2:
         return [transition[0], transition[1], NULL];
@@ -66,7 +67,7 @@ export class TuringMachine {
         return transition;
 
       default:
-        throw new TypeError();
+        throw new UnreachableError(transition);
     }
   }
 

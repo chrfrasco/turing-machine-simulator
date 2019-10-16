@@ -3,3 +3,8 @@ export const REJECT_STATE = Symbol("REJECT_STATE");
 export const LEFT = Symbol("LEFT");
 export const RIGHT = Symbol("RIGHT");
 export const NULL = Symbol("NULL");
+
+export enum Direction {
+  LEFT = 1,
+  RIGHT,
+}
