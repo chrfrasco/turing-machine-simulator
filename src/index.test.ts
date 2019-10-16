@@ -1,5 +1,5 @@
 import { TuringMachine } from "./index";
-import { makeTransitionFn } from "./makeTransitionFn";
+import { makeTransitionFn } from "./make_transition_fn";
 import { ACCEPT_STATE, REJECT_STATE, RIGHT, LEFT, NULL } from "./constants";
 
 test("trivial case", () => {
