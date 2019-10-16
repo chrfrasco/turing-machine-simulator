@@ -1,10 +1,4 @@
 import { run } from "./run";
-
-type Definition = {
-  states: { [key: string]: symbol };
-  transitionFn: TransitionFunction;
-  startState: symbol;
-};
 import { setNth } from "./set_nth";
 import { RIGHT, NULL } from "./constants";
 
@@ -31,6 +25,12 @@ type TransitionFnResult = {
   nextState: symbol;
   direction: symbol;
   nextTape: Tape;
+};
+
+type Definition = {
+  states: { [key: string]: symbol };
+  transitionFn: TransitionFunction;
+  startState: symbol;
 };
 
 export class TuringMachine {
