@@ -1,4 +1,4 @@
-import { setNth } from "./utils";
+import { setNth } from "./set_nth";
 import { RIGHT, NULL } from "./constants";
 
 export type TapeSymbol = string | symbol;

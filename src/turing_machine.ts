@@ -1,5 +1,4 @@
 import { run } from "./run";
-import { not } from "./utils";
 import { TransitionFunction, Tape } from "./make_transition_fn";
 
 type Definition = {

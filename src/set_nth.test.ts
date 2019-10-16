@@ -1,4 +1,4 @@
-import { setNth } from "./utils";
+import { setNth } from "./set_nth";
 
 test("setNth", () => {
   const arr = [1, 2, 3];
