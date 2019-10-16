@@ -1,6 +1,6 @@
 import { run } from "./run";
 import { setNth } from "./set_nth";
-import { RIGHT, NULL, Direction } from "./constants";
+import { NULL, Direction } from "./constants";
 import { UnreachableError } from './unreachable_error'
 
 export type TapeSymbol = string | symbol;
