@@ -1,1 +1,1 @@
-export { TuringMachine } from "./turing_machine";
+export {TuringMachine} from './turing_machine'
